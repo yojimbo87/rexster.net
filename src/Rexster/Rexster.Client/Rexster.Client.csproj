@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\RexsterEdge.cs" />
     <Compile Include="API\RexsterGraph.cs" />
     <Compile Include="API\RexsterNode.cs" />
+    <Compile Include="API\RexsterVertex.cs" />
     <Compile Include="JsonParser.cs" />
     <Compile Include="Protocol\Gremlin.cs" />
     <Compile Include="Protocol\Request.cs" />
