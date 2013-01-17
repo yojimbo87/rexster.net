@@ -17,9 +17,14 @@ namespace Rexster.Client
 
         public string Gremlin(string script)
         {
+            return Gremlin(script, null);
+        }
+
+        public string Gremlin(string script, string[] load)
+        {
             var gremlin = new Gremlin(_node);
 
-            return gremlin.Get(script);
+            return gremlin.Get(script, load);
         }
     }
 }

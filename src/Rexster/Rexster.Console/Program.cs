@@ -24,7 +24,7 @@ namespace Rexster.Console
 
             RexsterGraph graph = new RexsterGraph("test");
 
-            System.Console.WriteLine(graph.Gremlin("g.V"));
+            System.Console.WriteLine(graph.Gremlin("vx", new string[] { "vertices" }));
 
             System.Console.ReadLine();
         }

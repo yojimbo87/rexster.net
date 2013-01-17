@@ -22,12 +22,18 @@ namespace Rexster.Client.Protocol
 
         #region GET
 
-        internal string Get(string script)
+        internal string Get(string script, string[] load)
         {
             var request = new Request();
             request.RelativeUri = _apiUri;
-            request.QueryString.Add("script", script);
             request.Method = RequestMethod.GET.ToString();
+
+            request.QueryString.Add("script", script);
+
+            if ((load != null) && (load.Length > 0))
+            {
+                request.QueryString.Add("load", "[" + string.Join(",", load) + "]");
+            }
 
             var response = _node.Process(request);
             string data = "";
