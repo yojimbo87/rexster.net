@@ -4,7 +4,7 @@ namespace Rexster.Client
 {
     public class RexsterEdge
     {
-        public long ID { get; set; }
+        public string ID { get; set; }
         public RexsterVertex InVertex { get; set; }
         public RexsterVertex OutVertex { get; set; }
         public string Label { get; set; }
