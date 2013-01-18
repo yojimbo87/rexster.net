@@ -24,7 +24,33 @@ namespace Rexster.Console
 
             RexsterGraph graph = new RexsterGraph("test");
 
-            System.Console.WriteLine(graph.Gremlin("vx", new string[] { "vertices" }));
+            System.Console.WriteLine("Vertices:");
+
+            List<RexsterVertex> vertices = graph.Gremlin<RexsterVertex>("vx", new string[] { "vertices" });
+
+            foreach (var item in vertices)
+            {
+                System.Console.WriteLine(item.ID);
+
+                foreach (var prop in item.Properties)
+                {
+                    System.Console.WriteLine("- {0} -> {1}", prop.Key, prop.Value);
+                }
+            }
+
+            System.Console.WriteLine("Edges:");
+
+            List<RexsterEdge> edges = graph.Gremlin<RexsterEdge>("ex", new string[] { "edges" });
+
+            foreach (var item in edges)
+            {
+                System.Console.WriteLine(item.ID);
+
+                foreach (var prop in item.Properties)
+                {
+                    System.Console.WriteLine("- {0} -> {1}", prop.Key, prop.Value);
+                }
+            }
 
             System.Console.ReadLine();
         }

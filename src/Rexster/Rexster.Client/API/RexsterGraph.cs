@@ -1,4 +1,5 @@
-﻿using Rexster.Client.Protocol;
+﻿using System.Collections.Generic;
+using Rexster.Client.Protocol;
 
 namespace Rexster.Client
 {
@@ -15,16 +16,16 @@ namespace Rexster.Client
             _node = RexsterClient.GetNode(alias);
         }
 
-        public string Gremlin(string script)
+        public List<T> Gremlin<T>(string script) where T : new()
         {
-            return Gremlin(script, null);
+            return Gremlin<T>(script, null);
         }
 
-        public string Gremlin(string script, string[] load)
+        public List<T> Gremlin<T>(string script, string[] load) where T : new()
         {
             var gremlin = new Gremlin(_node);
 
-            return gremlin.Get(script, load);
+            return gremlin.Get<T>(script, load);
         }
     }
 }
