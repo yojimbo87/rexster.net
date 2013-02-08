@@ -75,7 +75,6 @@ namespace Rexster.Client
 
         internal Response Process(Request request)
         {
-            var parser = new JsonParser();
             var httpRequest = (HttpWebRequest)HttpWebRequest.Create(BaseUri + request.RelativeUri);
             httpRequest.KeepAlive = true;
             httpRequest.Method = request.Method;
@@ -117,7 +116,7 @@ namespace Rexster.Client
 
                 if (!string.IsNullOrEmpty(response.JsonString))
                 {
-                    response.JsonObject = parser.Deserialize(response.JsonString);
+                    response.JsonObject.Load(response.JsonString);
                 }
             }
             catch (WebException webException)

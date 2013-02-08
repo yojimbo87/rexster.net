@@ -13,7 +13,6 @@ namespace Rexster.Client.Protocol
                 return "graphs/" + _node.Database + "/tp/gremlin"; 
             } 
         }
-        private JsonParser _parser = new JsonParser();
         private RexsterNode _node { get; set; }
 
         internal Gremlin(RexsterNode node)
@@ -43,21 +42,21 @@ namespace Rexster.Client.Protocol
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    foreach (var resultItem in response.JsonObject.results)
+                    foreach (Json item in response.JsonObject.Get<List<Json>>("results"))
                     {
-                        IDictionary<string, object> properties = resultItem as IDictionary<string, object>;
+                        //IDictionary<string, object> properties = resultItem as IDictionary<string, object>;
                         T obj = new T();
 
-                        if (properties.ContainsKey("_type"))
+                        if (item.Has("_type"))
                         {
-                            switch ((string)properties["_type"])
+                            switch (item.Get("_type"))
                             {
                                 case "vertex":
-                                    (obj as RexsterVertex).ID = long.Parse(properties["_id"].ToString());
+                                    (obj as RexsterVertex).ID = item.Get<long>("_id");
 
-                                    if (properties.ContainsKey("_inE"))
+                                    if (item.Has("_inE"))
                                     {
-                                        foreach (string edgeID in (List<string>)properties["_inE"])
+                                        foreach (string edgeID in item.Get<List<string>>("_inE"))
                                         {
                                             RexsterEdge edge = new RexsterEdge();
                                             edge.ID = edgeID;
@@ -65,9 +64,9 @@ namespace Rexster.Client.Protocol
                                         }
                                     }
 
-                                    if (properties.ContainsKey("_outE"))
+                                    if (item.Has("_outE"))
                                     {
-                                        foreach (string edgeID in (List<string>)properties["_outE"])
+                                        foreach (string edgeID in item.Get<List<string>>("_outE"))
                                         {
                                             RexsterEdge edge = new RexsterEdge();
                                             edge.ID = edgeID;
@@ -75,7 +74,7 @@ namespace Rexster.Client.Protocol
                                         }
                                     }
 
-                                    foreach (var property in properties)
+                                    foreach (var property in item)
                                     {
                                         if ((property.Key != "_id") &&
                                             (property.Key != "_type") &&
@@ -87,22 +86,22 @@ namespace Rexster.Client.Protocol
                                     }
                                     break;
                                 case "edge":
-                                    (obj as RexsterEdge).ID = properties["_id"].ToString();
-                                    (obj as RexsterEdge).Label = properties["_label"].ToString();
+                                    (obj as RexsterEdge).ID = item.Get("_id");
+                                    (obj as RexsterEdge).Label = item.Get("_label");
 
-                                    if (properties.ContainsKey("_inV"))
+                                    if (item.Has("_inV"))
                                     {
                                         (obj as RexsterEdge).InVertex = new RexsterVertex();
-                                        (obj as RexsterEdge).InVertex.ID = long.Parse(properties["_inV"].ToString());
+                                        (obj as RexsterEdge).InVertex.ID = item.Get<long>("_inV");
                                     }
 
-                                    if (properties.ContainsKey("_outV"))
+                                    if (item.Has("_outV"))
                                     {
                                         (obj as RexsterEdge).OutVertex = new RexsterVertex();
-                                        (obj as RexsterEdge).OutVertex.ID = long.Parse(properties["_outV"].ToString());
+                                        (obj as RexsterEdge).OutVertex.ID = item.Get<long>("_outV");
                                     }
 
-                                    foreach (var property in properties)
+                                    foreach (var property in item)
                                     {
                                         if ((property.Key != "_id") &&
                                             (property.Key != "_type") &&
@@ -115,15 +114,15 @@ namespace Rexster.Client.Protocol
                                     }
                                     break;
                                 default:
-                                    /*foreach (var property in properties)
-                                    {
-                                        PropertyInfo propertyInfo = typeof(T).GetProperty(property.Key);
-
-                                        if (propertyInfo != null)
-                                        {
-                                            propertyInfo.SetValue(obj, property.Value, null);
-                                        }
-                                    }*/
+                                    //foreach (var property in properties)
+                                    //{
+                                    //    PropertyInfo propertyInfo = typeof(T).GetProperty(property.Key);
+                                    //
+                                    //    if (propertyInfo != null)
+                                    //    {
+                                    //        propertyInfo.SetValue(obj, property.Value, null);
+                                    //    }
+                                    //}
                                     break;
                             }
                         }

@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.3.9.35\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -44,7 +47,7 @@
     <Compile Include="API\RexsterGraph.cs" />
     <Compile Include="API\RexsterNode.cs" />
     <Compile Include="API\RexsterVertex.cs" />
-    <Compile Include="JsonParser.cs" />
+    <Compile Include="API\Json.cs" />
     <Compile Include="Protocol\Gremlin.cs" />
     <Compile Include="Protocol\Request.cs" />
     <Compile Include="Protocol\RequestMethod.cs" />
@@ -52,7 +55,9 @@
     <Compile Include="RexsterClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
